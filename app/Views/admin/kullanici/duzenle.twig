@@ -1,0 +1,88 @@
+{% extends "admin/template/layout.twig" %}
+
+{% block pageheader %}
+  <link rel="stylesheet" href="{{ base_url() }}/public/admin/css/switchery.min.css">
+  <script src="{{ base_url() }}/public/admin/js/switchery.min.js"></script>
+  
+{% endblock %}
+
+{% block content %}
+
+ <div class="col-md-7">
+  <!-- Horizontal Form -->
+  <div class="box box-info">
+    <div class="box-header with-border">
+      <h3 class="box-title">Kullanıcı Düzenle</h3>
+    </div>
+    <!-- /.box-header -->
+    <!-- form start -->
+    <form class="form-horizontal" action="{{ base_url() }}/admin/kullanici/duzenle/{{ user.Id}}" method="post">
+      <div class="box-body">
+        <div class="form-group has-feedback {{ errors.email ? ' has-error':'' }}">
+          <label for="email" class="col-sm-3 control-label">Email</label>
+
+          <div class="col-sm-9">
+            <input type="email" class="form-control" id="email" name="email" placeholder="Email" required value="{{ user.email}}">
+            <span style="color:red;">{{ errors.email ? errors.email | first:'' }}</span>
+          </div>
+
+        </div>
+        <div class="form-group">
+          <label for="parola" class="col-sm-3 control-label">Yeni Parola</label>
+
+
+          <div class="col-sm-9">
+            <input type="checkbox" name="yeniparola" id="yeniparola" class="js-switch"> <br />   <br/ >
+            <input type="password" class="form-control hidden" id="parola" name="parola" placeholder="Parola" value="" >
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="adsoyad" class="col-sm-3 control-label">Ad Soyad</label>
+
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="adsoyad" name="adsoyad" placeholder="Ad Soyad" required value="{{ user.adsoyad}}"">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-3 col-sm-9">        
+
+
+            <input type="checkbox" class="js-switch"  name="isactive" {{ user.isactive?'checked':'' }}  /> &nbsp; Aktif Mi 
+
+
+          </div>
+        </div>
+      </div>
+      <!-- /.box-body -->
+      <div class="box-footer">
+        <a href="{{ path_for('kullanici.listele')}}" class="btn btn-default">İptal</a>
+        <button type="submit" class="btn btn-info pull-right">Kaydet</button>
+      </div>
+      <!-- /.box-footer -->
+      <input type="hidden" name="Id" value="{{user.Id}}">
+      {{csrf.field | raw }}
+    </form>
+  </div>
+
+
+{% endblock %}
+
+{% block footer %}
+  <script >
+
+   var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+   elems.forEach(function(html) {
+   var switchery = new Switchery(html,{size:'small'});
+ });
+ $('#yeniparola').on('change',function(){
+ if ($(this).is(':checked'))
+ {
+ $('#parola').removeClass("hidden");
+}
+else $('#parola').addClass("hidden");
+});
+</script>
+
+
+
+{% endblock %}

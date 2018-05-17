@@ -1,0 +1,73 @@
+{% extends "admin/template/layout.twig" %}
+
+{% block pageheader %}
+  <link rel="stylesheet" href="{{ base_url() }}/public/admin/css/switchery.min.css">
+  <script src="{{ base_url() }}/public/admin/js/switchery.min.js"></script>
+{% endblock %}
+
+{% block content %}
+ <div class="col-md-7">
+  <!-- Horizontal Form -->
+  <div class="box box-info">
+    <div class="box-header with-border">
+      <h3 class="box-title">Kullanıcı Oluştur</h3>
+    </div>
+    <!-- /.box-header -->
+    <!-- form start -->
+    <form class="form-horizontal" action="{{ path_for('kullanici.olustur')}}" method="post">
+      <div class="box-body">
+        <div class="form-group has-feedback {{ errors.email ? ' has-error':'' }}">
+          <label for="email" class="col-sm-2 control-label">Email</label>
+
+          <div class="col-sm-10">
+            <input type="email" class="form-control" id="email" name="email" placeholder="Email" required value="{{ old.email}}">
+            <span style="color:red;">{{ errors.email ? errors.email | first:'' }}</span>
+          </div>
+
+        </div>
+        <div class="form-group">
+          <label for="parola" class="col-sm-2 control-label">Parola</label>
+
+          <div class="col-sm-10">
+            <input type="password" class="form-control" id="parola" name="parola" placeholder="Parola" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="adsoyad" class="col-sm-2 control-label">Ad Soyad</label>
+
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="adsoyad" name="adsoyad" placeholder="Ad Soyad" required value="{{ old.adsoyad}}"">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" class="js-switch" name="isactive" />  Aktif Mi 
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.box-body -->
+      <div class="box-footer">
+        <a href="{{ path_for('kullanici.listele')}}" class="btn btn-default">İptal</a>
+        <button type="submit" class="btn btn-info pull-right">Kaydet</button>
+      </div>
+      <!-- /.box-footer -->
+      {{ csrf.field | raw}}
+    </form>
+  </div>
+
+
+{% endblock %}
+
+{% block footer %}
+    <script>
+   var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+    elems.forEach(function(html) {
+      var switchery = new Switchery(html,{size:'small'});
+    });
+  </script>
+
+{% endblock %}

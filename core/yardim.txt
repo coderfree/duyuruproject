@@ -1,0 +1,112 @@
+
+## URL Helper
+
+-------------------------
+##Doğrudan Yönlendirme
+-------------------------
+$app->redirect('/deneme', 'http://www.google.com');
+-----------------------------------------------------
+
+-----------------
+##Get ile Router
+------------------
+$app->get('/',function($req,$res,$args){
+
+    ------------------
+	##Durumu ile yazma
+	-------------------
+	//return $res->withStatus(400)->write('Bad Request');
+    
+    ----------------------------------
+	##HeaderLocation İle Yönlendirmesi
+	-----------------------------------
+	//return $res->withStatus(302)->withHeader('Location', 'http://wwww.google.com');
+});
+--------------------------------------------------------------------------------------
+
+
+----------------------------
+##FastRoute İle Route İşlemi
+https://github.com/nikic/FastRoute
+----------------------------
+// named parameter:
+$app->get('/hello/{name}', /*...*/);
+
+// optional segment:
+$app->get('/news[/{year}]', /*...*/);
+
+//alternatif kullanım
+$app->addRoute('GET', '/get-route', 'get_handler');
+$app->addRoute('POST', '/post-route', 'post_handler');
+
+--------------------------------------
+
+
+-------------------------
+##Middleware Kullanımı
+-------------------------
+use Psr\Http\Message\RequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
+
+$app->add(function (Request $req,  Response $res, callable $next) {
+    // Do stuff before passing along
+    $newResponse = $next($req, $res);
+    // Do stuff after route is rendered
+    return $newResponse; // continue
+});
+-------------------------------------
+
+-------------------------------------
+##Middleware Class ile Kullanım
+-------------------------------------
+namespace My;
+
+use Psr\Http\Message\RequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
+
+class Middleware
+{
+    function __invoke(Request $req,  Response $res, callable $next) {
+        // Do stuff before passing along
+        $newResponse = $next($req, $res);
+        // Do stuff after route is rendered
+        return $newResponse; // continue
+    }
+}
+
+// Register
+$app->add(new My\Middleware());
+// or
+$app->add(My\Middleware::class);
+------------------------------------------------
+
+--------------------
+##Route Middleware
+---------------------
+$app->get(…)->add($mw2)->add($mw1);
+---------------------------------------
+
+---------------------
+##Mevcut Route bulma
+----------------------
+$request->getAttribute('route');
+--------------------------------
+
+----------------------------------
+##SetName Pathfor ile kullanım
+-----------------------------------
+$app->get('/', function ($request, $response, $args) {
+    $url = $this->router->pathFor('home');
+    $response->write("<a href='$url'>Home</a>");
+    return $response;
+})->setName('home');
+
+
+//
+pathFor('home')
+//
+-------------------------------------------------------
+
+
+
+

@@ -1,0 +1,18 @@
+{% if flash.getMessage('hata') %}
+    <div class="callout callout-danger">
+        <p>{{ flash.getMessage('hata') | first }}</p>
+    </div>
+{% endif %}
+{% if flash.getMessage('uyari') %}
+    <div class="callout callout-warning">
+        <p>{{ flash.getMessage('uyari') | first }}</p>
+    </div>
+{% endif %}
+{% if flash.getMessage('info') %}
+    <div class="callout callout-info">
+        <p>{{ flash.getMessage('info') | first }}</p>
+    </div>
+{% endif %}
+
+
+

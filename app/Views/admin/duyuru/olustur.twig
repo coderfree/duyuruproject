@@ -1,0 +1,99 @@
+{% extends "admin/template/layout.twig" %}
+
+{% block pageheader %}
+  <link rel="stylesheet" href="{{ base_url() }}/public/admin/css/switchery.min.css">
+  <script src="{{ base_url() }}/public/admin/js/switchery.min.js"></script>
+  <link rel="stylesheet" href="{{ base_url() }}/public/admin/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+
+{% endblock %}
+
+{% block content %}
+ <div class="col-md-12">
+  <!-- Horizontal Form -->
+  <div class="box box-info">
+    <div class="box-header with-border">
+      <h3 class="box-title">Duyuru Oluştur</h3>
+    </div>
+    <!-- /.box-header -->
+    <!-- form start -->
+    <form class="form-horizontal" action="{{ path_for('duyuru.olustur')}}" method="post">
+      <div class="box-body">
+        <div class="form-group has-feedback {{ errors.duyuru ? ' has-error':'' }}">
+          <label for="baslik" class="col-sm-2 control-label">Başlık</label>
+
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="baslik" name="baslik" placeholder="Duyuru İçin Bir Başlık Giriniz!!!" required value="{{ old.duyuru}}">
+            <span style="color:red;">{{ errors.duyuru ? errors.duyuru | first:'' }}</span>
+          </div>
+
+        </div>
+        <div class="form-group">
+          <label for="metin" class="col-sm-2 control-label">Metin</label>
+
+          <div class="col-sm-10">
+           <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Duyuru Metni
+                <small>Basit ve Hızlı</small>
+              </h3>
+              <!-- tools box -->
+              <div class="pull-right box-tools">
+                <button type="button" class="btn btn-default btn-sm" data-widget="collapse" data-toggle="tooltip"
+                title="Collapse">
+                <i class="fa fa-minus"></i></button>
+                <button type="button" class="btn btn-default btn-sm" data-widget="remove" data-toggle="tooltip"
+                title="Remove">
+                <i class="fa fa-times"></i></button>
+              </div>
+              <!-- /. tools -->
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body pad">
+
+              <textarea class="textarea" name="metin" id="meti " placeholder="Duyuru Metni Giriniz!!!"
+              style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" class="js-switch" name="isactive" />  Aktif Mi 
+          </label>
+          <br/>
+          <br/>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.box-body -->
+  <div class="box-footer">
+    <a href="{{ path_for('duyuru.listele')}}" class="btn btn-default">İptal</a>
+    <button type="submit" class="btn btn-info pull-right">Kaydet</button>
+  </div>
+  <!-- /.box-footer -->
+  {{ csrf.field | raw}}
+</form>
+</div>
+
+
+{% endblock %}
+
+{% block footer %}
+
+  <script src="{{ base_url()}}/public/admin/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+
+
+  <script>
+  $('.textarea').wysihtml5();
+  var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+  elems.forEach(function(html) {
+   var switchery = new Switchery(html,{size:'small'});
+ });
+  </script>
+
+{% endblock %}

@@ -1,0 +1,11 @@
+<script type="text/javascript" src="{{ base_url() }}/public/admin/js/jquery.confirm.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".confirm").confirm({
+            title: "İşlem Onayı",
+            text: "Bu işlem geri döndürülemez.. Emin misiniz?",
+            confirmButton: "Evet Eminim",
+            cancelButton: "Hayır"
+        });
+    });
+</script>
